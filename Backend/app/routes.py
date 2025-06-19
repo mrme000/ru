@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from passlib.context import CryptContext
+from app.core.config import settings
 import jwt
 import datetime
 
@@ -10,9 +11,9 @@ router = APIRouter()
 # Password hashing setup
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# JWT secret and algorithm
-SECRET_KEY = "99ySHm25hfxUQI3MaSA3vKQcbHL1nCOzcEIdojc5"  # Use an environment variable in production
-ALGORITHM = "HS256"
+# JWT configuration from settings
+SECRET_KEY = settings.jwt_secret_key
+ALGORITHM = settings.jwt_algorithm
 
 # Example data model for request body
 class UserRegister(BaseModel):
@@ -43,11 +44,10 @@ async def login_user(user: UserLogin):
     # Check if user exists
     db_user = fake_users_db.get(user.email)
     if not db_user or not pwd_context.verify(user.password, db_user["password"]):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    # Generate JWT token
+        raise HTTPException(status_code=401, detail="Invalid credentials")    # Generate JWT token
     token_data = {
         "sub": user.email,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=settings.jwt_expiration_minutes)
     }
     token = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
     return {"access_token": token, "token_type": "bearer"}

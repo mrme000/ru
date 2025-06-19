@@ -9,7 +9,7 @@ The RU Carpooling backend is designed to support a carpooling service for Rutger
 - Handles ride creation, updates, requests, and searching for available rides
 - Fun metrics tracking (total rides given/taken)
 - Provides real-time and stored notifications for ride-related activities
-- Supports speech-to-text, avatar generation, carbon emissions estimation, and ride summary generation
+- Supports avatar generation, carbon emissions estimation, and ride summary generation
 
 ## Tech Stack
 - **Backend:** Python3, FastAPI with Boto3
@@ -60,7 +60,6 @@ The RU Carpooling backend is designed to support a carpooling service for Rutger
 - **WebSocket Notification** (`wss://sy3ppk7bnh.execute-api.us-east-1.amazonaws.com/dev`): Enables real-time notifications for ride updates.
 
 ### AI Integrations
-- **Speech-to-Text** (`POST /speech-to-text`): Converts speech from a Base64-encoded `.wav` audio file into text.
 - **Generate Avatar** (`POST /{user_id}/photo`): Creates an AI-generated avatar based on user preferences.
 - **Carbon Emissions Estimation**: Uses AI to estimate total and per-passenger CO₂ emissions for a carpool ride.
 - **Generate Fun Summary**: Creates a short and engaging summary of a carpool ride, including CO₂ savings.

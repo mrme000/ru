@@ -1,5 +1,6 @@
 import jwt
 from datetime import datetime, timedelta
+from fastapi import HTTPException
 from app.core.config import settings
 
 def generate_custom_jwt(username: str):
